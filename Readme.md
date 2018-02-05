@@ -79,7 +79,7 @@ License
 -------
 
 The `python3-Fp-growth` package is made available under the terms of the
-MIT License.
+[MIT License](LICENSE).
 
 Copyright © 2018 [C.A.Lee][me]
 
