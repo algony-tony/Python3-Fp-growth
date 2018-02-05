@@ -1,14 +1,16 @@
 Python FP-Growth
 ================
 
-## Announce:
-This Project is fork from [enaeseth](https://github.com/enaeseth)'s open source Project [Python FP-Growth](https://github.com/enaeseth/python-fp-growth). Seace that the project haven't been maintained for several years, I decide to fork a new project for python3's version.
-
 This module provides a pure Python implementation of the FP-growth algorithm for
 finding frequent itemsets. FP-growth exploits an (often-valid) assumption that
 many transactions will have items in common to build a prefix tree. If the
 assumption holds true, this tree produces a compact representation of the actual
 transactions and is used to generate itemsets much faster than *Apriori* can.
+
+Announce:
+---------
+
+This Project is fork from [enaeseth](https://github.com/enaeseth)'s open source Project [Python FP-Growth](https://github.com/enaeseth/python-fp-growth). Seace that the project haven't been maintained for several years, I decide to fork a new project for python3's version.
 
 Installation
 ------------
