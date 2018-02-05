@@ -1,6 +1,9 @@
 Python FP-Growth
 ================
 
+## Announce:
+This Project is fork from [enaeseth](https://github.com/enaeseth)'s open source Project [Python FP-Growth](https://github.com/enaeseth/python-fp-growth). Seace that the project haven't been maintained for several years, I decide to fork a new project for python3's version.
+
 This module provides a pure Python implementation of the FP-growth algorithm for
 finding frequent itemsets. FP-growth exploits an (often-valid) assumption that
 many transactions will have items in common to build a prefix tree. If the
@@ -75,28 +78,9 @@ to Data Mining*.
 License
 -------
 
-The `python-fp-growth` package is made available under the terms of the
+The `python3-Fp-growth` package is made available under the terms of the
 MIT License.
 
-Copyright © 2009 [Eric Naeseth][me]
+Copyright © 2018 [C.A.Lee][me]
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-[me]: http://github.com/enaeseth/
-[pypi]: http://pypi.python.org/
+[me]: http://github.com/calee0219/
