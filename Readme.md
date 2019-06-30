@@ -27,9 +27,12 @@ Usage of the module is very simple. Assuming you have some iterable of transacti
 an integer minimum support value `minsup`, you can find the frequent itemsets
 in your transactions with the following code:
 
-    from fp_growth import find_frequent_itemsets
-    for itemset in find_frequent_itemsets(transactions, minsup):
-        print itemset
+```python
+from fp_growth import find_frequent_itemsets
+
+for itemset in find_frequent_itemsets(transactions, minsup):
+    print itemset
+```
 
 Note that `find_frequent_itemsets` returns a generator of itemsets, not a
 greedily-populated list. Each item must be hashable (i.e., it must be valid as
