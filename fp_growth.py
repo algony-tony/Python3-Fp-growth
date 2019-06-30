@@ -11,9 +11,10 @@ Basic usage of the module is very simple:
 
 from collections import defaultdict, namedtuple
 
-__author__ = 'Eric Naeseth <eric@naeseth.com>'
-__copyright__ = 'Copyright © 2009 Eric Naeseth'
-__license__ = 'MIT License'
+__author__ = "Eric Naeseth <eric@naeseth.com>"
+__copyright__ = "Copyright © 2009 Eric Naeseth"
+__license__ = "MIT License"
+
 
 def find_frequent_itemsets(transactions, minimum_support, include_support=False):
     """
@@ -30,7 +31,7 @@ def find_frequent_itemsets(transactions, minimum_support, include_support=False)
     If `include_support` is true, yield (itemset, support) pairs instead of
     just the itemsets.
     """
-    items = defaultdict(lambda: 0) # mapping from items to their supports
+    items = defaultdict(lambda: 0)  # mapping from items to their supports
 
     # if useing support rate instead of support count
     if 0 < minimum_support <= 1:
@@ -43,8 +44,9 @@ def find_frequent_itemsets(transactions, minimum_support, include_support=False)
             items[item] += 1
 
     # Remove infrequent items from the item support dictionary.
-    items = dict((item, support) for item, support in items.items()
-            if support >= minimum_support)
+    items = dict(
+        (item, support) for item, support in items.items() if support >= minimum_support
+    )
 
     # Build our FP-tree. Before any transactions can be added to the tree, they
     # must be stripped of infrequent items and their surviving items must be
@@ -70,11 +72,12 @@ def find_frequent_itemsets(transactions, minimum_support, include_support=False)
                 # itemsets within it.
                 cond_tree = conditional_tree_from_paths(tree.prefix_paths(item))
                 for s in find_with_suffix(cond_tree, found_set):
-                    yield s # pass along the good news to our caller
+                    yield s  # pass along the good news to our caller
 
     # Search for frequent itemsets, and yield the results we find.
     for itemset in find_with_suffix(master, []):
         yield itemset
+
 
 class FPTree(object):
     """
@@ -84,7 +87,7 @@ class FPTree(object):
     (i.e., all items must be valid as dictionary keys or set members).
     """
 
-    Route = namedtuple('Route', 'head tail')
+    Route = namedtuple("Route", "head tail")
 
     def __init__(self):
         # The root node of the tree.
@@ -127,7 +130,7 @@ class FPTree(object):
 
         try:
             route = self._routes[point.item]
-            route[1].neighbor = point # route[1] is the tail
+            route[1].neighbor = point  # route[1] is the tail
             self._routes[point.item] = self.Route(route[0], point)
         except KeyError:
             # First node for this item; start a new route.
@@ -170,15 +173,16 @@ class FPTree(object):
         return (collect_path(node) for node in self.nodes(item))
 
     def inspect(self):
-        print('Tree:')
+        print("Tree:")
         self.root.inspect(1)
 
         print()
-        print('Routes:')
+        print("Routes:")
         for item, nodes in self.items():
-            print('  %r' % item)
+            print("  %r" % item)
             for node in nodes:
-                print('    %r' % node)
+                print("    %r" % node)
+
 
 def conditional_tree_from_paths(paths):
     """Build a conditional FP-tree from the given prefix paths."""
@@ -215,6 +219,7 @@ def conditional_tree_from_paths(paths):
 
     return tree
 
+
 class FPNode(object):
     """A node in an FP tree."""
 
@@ -232,7 +237,7 @@ class FPNode(object):
         if not isinstance(child, FPNode):
             raise TypeError("Can only add other FPNodes as children")
 
-        if not child.item in self._children:
+        if child.item not in self._children:
             self._children[child.item] = child
             child.parent = self
 
@@ -315,7 +320,7 @@ class FPNode(object):
         return tuple(self._children.itervalues())
 
     def inspect(self, depth=0):
-        print (('  ' * depth) + repr(self))
+        print(("  " * depth) + repr(self))
         for child in self.children:
             child.inspect(depth + 1)
 
@@ -337,7 +342,7 @@ def subs(l):
 
 
 # Association rules
-def assRule(freq, min_conf = 0.6):
+def assRule(freq, min_conf=0.6):
     """
     This assRule must input a dict for itemset -> support rate
     And also can customize your minimum confidence
@@ -347,38 +352,59 @@ def assRule(freq, min_conf = 0.6):
     for item, sup in freq.items():
         for subitem in subs(list(item)):
             sb = [x for x in item if x not in subitem]
-            if sb == [] or subitem == []: continue
-            if len(subitem) == 1 and (subitem[0][0] == 'in' or subitem[0][0] == 'out'):
+            if sb == [] or subitem == []:
                 continue
-            conf = sup/freq[tuple(subitem)]
+            if len(subitem) == 1 and (subitem[0][0] == "in" or subitem[0][0] == "out"):
+                continue
+            conf = sup / freq[tuple(subitem)]
             if conf >= min_conf:
-                result.append({'from':subitem, 'to':sb, 'sup':sup, 'conf':conf})
+                result.append({"from": subitem, "to": sb, "sup": sup, "conf": conf})
     return result
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     from optparse import OptionParser
     import csv
 
-    p = OptionParser(usage='%prog data_file')
-    p.add_option('-s', '--minimum-support', dest='minsup', type='int',
-        help='Minimum itemset support (default: 2)')
-    p.add_option('-n', '--numeric', dest='numeric', action='store_true',
-        help='Convert the values in datasets to numerals (default: false)')
-    p.add_option('-c', '--minimum-confidence', dest='minconf', type='float',
-        help='Minimum rule confidence (default 0.6)')
-    p.add_option('-f', '--find', dest='find', type='str',
-        help='Finding freq(frequency itemsets) or rule(association rules) (default: freq)')
+    p = OptionParser(usage="%prog data_file")
+    p.add_option(
+        "-s",
+        "--minimum-support",
+        dest="minsup",
+        type="int",
+        help="Minimum itemset support (default: 2)",
+    )
+    p.add_option(
+        "-n",
+        "--numeric",
+        dest="numeric",
+        action="store_true",
+        help="Convert the values in datasets to numerals (default: false)",
+    )
+    p.add_option(
+        "-c",
+        "--minimum-confidence",
+        dest="minconf",
+        type="float",
+        help="Minimum rule confidence (default 0.6)",
+    )
+    p.add_option(
+        "-f",
+        "--find",
+        dest="find",
+        type="str",
+        help="Finding freq(frequency itemsets) or rule(association rules) (default: freq)",
+    )
     p.set_defaults(minsup=2)
     p.set_defaults(numeric=False)
     p.set_defaults(minconf=0.6)
-    p.set_defaults(find='freq')
+    p.set_defaults(find="freq")
     options, args = p.parse_args()
 
-    assert options.find == 'freq' or options.find == 'rule'
+    assert options.find == "freq" or options.find == "rule"
 
     if len(args) < 1:
-        p.error('must provide the path to a CSV file to read')
+        p.error("must provide the path to a CSV file to read")
 
     transactions = []
     with open(args[0]) as database:
@@ -386,7 +412,7 @@ if __name__ == '__main__':
             if options.numeric:
                 transaction = []
                 for item in row:
-                    transaction.append(long(item))
+                    transaction.append(int(item))
                 transactions.append(transaction)
             else:
                 transactions.append(row)
@@ -394,15 +420,15 @@ if __name__ == '__main__':
     result = []
     res_for_rul = {}
     for itemset, support in find_frequent_itemsets(transactions, options.minsup, True):
-        result.append((itemset,support))
+        result.append((itemset, support))
         res_for_rul[tuple(itemset)] = support
 
-    if options.find == 'freq':
+    if options.find == "freq":
         result = sorted(result, key=lambda i: i[0])
         for itemset, support in result:
-            print(str(itemset) + ' ' + str(support))
-    if options.find == 'rule':
+            print(str(itemset) + " " + str(support))
+    if options.find == "rule":
         rules = assRule(res_for_rul, options.minconf)
         for ru in rules:
-            print(str(ru['from']) + ' -> ' + str(ru['to']))
-            print('support = ' + str(ru['sup']) + 'confindence = ' + str(ru['conf']))
+            print(str(ru["from"]) + " -> " + str(ru["to"]))
+            print("support = " + str(ru["sup"]) + "confindence = " + str(ru["conf"]))
