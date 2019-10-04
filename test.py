@@ -6,7 +6,7 @@ Testing code for the FP-growth implementation.
 
 import unittest
 import fp_growth
-from itertools import izip
+
 
 class NodeTester(object):
     def __init__(self, case, node):
@@ -24,8 +24,8 @@ class NodeTester(object):
 
     def count(self, count):
         self.case.assertEqual(self.node.count, count,
-            'expected count to be %d; instead it was %d' %
-            (count, self.node.count))
+                              'expected count to be %d; instead it was %d' %
+                              (count, self.node.count))
         return self
 
     def leaf(self):
@@ -45,9 +45,9 @@ class TreeTestCase(unittest.TestCase):
         actual = list(actual)
         self.assertEqual(len(expected), len(actual))
 
-        for items, path in izip(expected, actual):
+        for items, path in zip(expected, actual):
             self.assertEqual(len(items), len(path))
-            for item, node in izip(items, path):
+            for item, node in zip(items, path):
                 self.assertEqual(item, node.item)
 
 
@@ -72,10 +72,10 @@ class InsertionTests(TreeTestCase):
         b.child('d', 1).child('e', 1)
 
     def testNumeric(self):
-        self.tree.add([1,2,3])
-        self.tree.add([1,2,4])
-        self.root.child(1,2).child(2,2).child(3,1)
-        self.root.child(1,2).child(2,2).child(4,1)
+        self.tree.add([1, 2, 3])
+        self.tree.add([1, 2, 4])
+        self.root.child(1, 2).child(2, 2).child(3, 1)
+        self.root.child(1, 2).child(2, 2).child(4, 1)
 
 
 class RouteTests(TreeTestCase):
@@ -128,7 +128,7 @@ class ConditionalTreeTests(TreeTestCase):
         root = NodeTester(self, ct.root)
 
         a = root.child('a', 2)
-        a.child('b', 1).child('d',1).leaf()
+        a.child('b', 1).child('d', 1).leaf()
         self.assertEqual(2, len(a.node.children))
 
     def testPruning(self):
@@ -141,7 +141,7 @@ class ConditionalTreeTests(TreeTestCase):
         paths = list(self.tree.prefix_paths('c'))
         ct = fp_growth.conditional_tree_from_paths(paths)
         root = NodeTester(self, ct.root)
-        root.child('a', 2).child('b',1).child('c',1).leaf()
+        root.child('a', 2).child('b', 1).child('c', 1).leaf()
         self.assertEqual(2, len(root.node.children))
 
     def testSupport(self):
@@ -152,10 +152,10 @@ class ConditionalTreeTests(TreeTestCase):
         self.tree.add('abd')
         paths = list(self.tree.prefix_paths('d'))
         ct = fp_growth.conditional_tree_from_paths(paths)
-        root = NodeTester(self,ct.root)
-        a = root.child('a',2)
-        b = a.child('b',2)
-        c = b.child('c',1)
+        root = NodeTester(self, ct.root)
+        a = root.child('a', 2)
+        b = a.child('b', 2)
+        c = b.child('c', 1)
 
 
 class FrequentSetTests(unittest.TestCase):
@@ -164,8 +164,9 @@ class FrequentSetTests(unittest.TestCase):
         transactions = [line.split(',') for line in raw.split(';')]
 
         itemsets = list(fp_growth.find_frequent_itemsets(transactions, 2))
-        self.assertEqual([['25'], ['52', '25'], ['274'], ['71'], ['52']],
-            itemsets)
+        self.assertEqual(sorted([['25'], ['52', '25'], ['274'], ['71'], ['52']]),
+                         sorted(itemsets))
+
 
 if __name__ == '__main__':
     unittest.main()
