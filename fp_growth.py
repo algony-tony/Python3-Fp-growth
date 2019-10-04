@@ -332,7 +332,7 @@ class FPNode(object):
 
 def subs(l):
     """
-    Used for assRule
+    Used for assoc_rule
     """
     assert type(l) is list
     if len(l) == 1:
@@ -342,9 +342,9 @@ def subs(l):
 
 
 # Association rules
-def assRule(freq, min_conf=0.6):
+def assoc_rule(freq, min_conf=0.6):
     """
-    This assRule must input a dict for itemset -> support rate
+    This assoc_rule must input a dict for itemset -> support rate
     And also can customize your minimum confidence
     """
     assert type(freq) is dict
@@ -428,7 +428,7 @@ if __name__ == "__main__":
         for itemset, support in result:
             print(str(itemset) + " " + str(support))
     if options.find == "rule":
-        rules = assRule(res_for_rul, options.minconf)
+        rules = assoc_rule(res_for_rul, options.minconf)
         for ru in rules:
             print(str(ru["from"]) + " -> " + str(ru["to"]))
             print("support = " + str(ru["sup"]) + "confidence = " + str(ru["conf"]))
