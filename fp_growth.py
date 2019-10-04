@@ -33,7 +33,7 @@ def find_frequent_itemsets(transactions, minimum_support, include_support=False)
     """
     items = defaultdict(lambda: 0)  # mapping from items to their supports
 
-    # if useing support rate instead of support count
+    # if using support rate instead of support count
     if 0 < minimum_support <= 1:
         minimum_support = minimum_support * len(transactions)
 
@@ -317,7 +317,7 @@ class FPNode(object):
     @property
     def children(self):
         """The nodes that are children of this node."""
-        return tuple(self._children.itervalues())
+        return tuple(self._children.values())
 
     def inspect(self, depth=0):
         print(("  " * depth) + repr(self))
@@ -431,4 +431,4 @@ if __name__ == "__main__":
         rules = assRule(res_for_rul, options.minconf)
         for ru in rules:
             print(str(ru["from"]) + " -> " + str(ru["to"]))
-            print("support = " + str(ru["sup"]) + "confindence = " + str(ru["conf"]))
+            print("support = " + str(ru["sup"]) + "confidence = " + str(ru["conf"]))
